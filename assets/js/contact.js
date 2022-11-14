@@ -29,7 +29,7 @@ jQuery(document).ready(function ($) { // wait until the document is ready
 
 		$.ajax({
 			type: "POST",
-			url: "/index.php",
+			url: "/index.html",
 			data: data_string,
 			timeout: 6000,
 			error: function(request,error) {
@@ -42,7 +42,6 @@ jQuery(document).ready(function ($) { // wait until the document is ready
 				}
 			},
 			success: function() {
-				alert(data_string);
 				$('#ajax-form').slideUp('slow');
 				$('#ajaxsuccess').slideDown('slow');
 			}
