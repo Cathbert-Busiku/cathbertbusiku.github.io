@@ -1187,26 +1187,29 @@
                         <div class="contact-form-wrapper">
                             <div class="introduce">
 
-                                <form class="rnt-contact-form rwt-dynamic-form row" id="contact-form" method="POST" action="mail.php">
+                                <form name="ajax-form" id="ajax-form" method="post" class="rnt-contact-form rwt-dynamic-form row">
 
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="contact-name">Your Name</label>
-                                            <input class="form-control form-control-lg" name="contact-name" id="contact-name" type="text">
+                                            <input class="form-control form-control-lg" name="name" id="name" type="text">
+                                            <span class="error" id="err-name">please enter name</span>
                                         </div>
                                     </div>
 
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="contact-phone">Phone Number</label>
-                                            <input class="form-control" name="contact-phone" id="contact-phone" type="text">
+                                            <input class="form-control" name="phone" id="phone" type="text">
                                         </div>
                                     </div>
 
                                     <div class="col-lg-12">
                                         <div class="form-group">
                                             <label for="contact-email">Email</label>
-                                            <input class="form-control form-control-sm" id="contact-email" name="contact-email" type="email">
+                                            <input class="form-control form-control-sm" id="email" name="email" type="email">                 
+                                            <span class="error" id="err-email">please enter e-mail</span>
+                                            <span class="error" id="err-emailvld">e-mail is not a valid format</span>
                                         </div>
                                     </div>
 
@@ -1214,29 +1217,94 @@
                                         <div class="form-group">
                                             <label for="subject">subject</label>
                                             <input class="form-control form-control-sm" id="subject" name="subject" type="text">
+                                            <span class="error" id="err-name">please enter Subject</span>
                                         </div>
                                     </div>
 
                                     <div class="col-lg-12">
                                         <div class="form-group">
                                             <label for="contact-message">Your Message</label>
-                                            <textarea name="contact-message" id="contact-message" cols="30" rows="10"></textarea>
+                                            <textarea  name="message" id="message"  cols="30" rows="10"></textarea>
                                         </div>
                                     </div>
 
                                     <div class="col-lg-12">
-                                        <button name="submit" type="submit" id="submit" class="rn-btn">
+                                        <button name="submited" type="submit" id="send" class="rn-btn"  data-lang="en">
                                             <span>SEND MESSAGE</span>
                                             <i data-feather="arrow-right"></i>
                                         </button>
                                     </div>
+
+                                    <div class="clear"></div>
+                                    <div class="error text-align-center" id="err-form">There was a problem validating the form please check!</div>
+                                    <div class="error text-align-center" id="err-timedout">The connection to the server timed out!</div>
+                                    <div class="error" id="err-state"></div>
                                 </form>
+
+                                <div class="clearfix"></div>
+                                 <div id="ajaxsuccess">Successfully sent!!</div>
+                                <div class="clear"></div>
+
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
+            
+    <?php  
+        
+            if(isset($_POST['submited]'])) {
+                var_dump($_POST);
+                $mailto = "cathbertbusiku@gmail.com";  //My email address
+                //getting customer data
+                // Var_dump($_POST['name']);
+                $name = $_POST['name']; //getting customer name
+                $phone = $_POST['phone']; //getting customer phone
+                $fromEmail = $_POST['email']; //getting customer email
+                // $phone = $_POST['tel']; //getting customer Phome number
+                $subject = $_POST['subject']; //getting subject line from client
+                $subject2 = "Confirmation: Message was submitted successfully | Cathbert Busiku"; // For customer confirmation
+                
+                echo  $_POST['name'];
+                //Email body I will receive
+                $message = "Cleint Name: " . $name . "\n"
+                . "subject: " . $subject . "\n\n"
+                . "phone: " . $phone . "\n\n"
+                . "Client Message: " . "\n" . $_POST['message'];
+                
+                //Message for client confirmation
+                $message2 = "Dear" . $name . "\n"
+                . "Thank you for contacting us. We will get back to you shortly!" . "\n\n"
+                . "You submitted the following message: " . "\n" . $_POST['message'] . "\n\n"
+                . "Regards," . "\n" . "- Cathbert Busiku";
+                
+                //Email headers
+                $headers = "From: " . $fromEmail; // Client email, I will receive
+                $headers2 = "From: " . $mailto; // This will receive client
+                
+                //PHP mailer function
+                
+                $result1 = mail($mailto, $subject, $message, $headers); // This email sent to My address
+                $result2 = mail($fromEmail, $subject2, $message2, $headers2); //This confirmation email to client
+                
+                //Checking if Mails sent successfully
+                
+                if ($result1 && $result2) {
+                    $success = "Your Message was sent Successfully!";
+                } else {
+                    $failed = "Sorry! Message was not sent, Try again Later.";
+                }
+                
+            }
+            
+    ?>
+
+    
+
+
+
         <!-- End Contuct section -->
 
         <!-- Modal Portfolio Body area Start -->
@@ -2439,7 +2507,7 @@
     <!-- End Footer Area -->
 
     <!-- JS ============================================ -->
-    <script src="https://code.jquery.com/jquery-3.6.1.slim.min.js" integrity="sha256-w8CvhFs7iHNVUtnSP0YKEg00p9Ih13rlL9zGqvLdePA=" crossorigin="anonymous"></script>
+    <<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
     <script src="assets/js/vendor/jquery.js"></script>
     <script src="assets/js/vendor/modernizer.min.js"></script>
     <script src="assets/js/vendor/feather.min.js"></script>
@@ -2455,6 +2523,7 @@
     <script src="assets/js/show.js"></script>
     <script src="assets/js/social.js"></script>
     <script src="assets/js/type.js"></script> 
+    <script src="assets/js/contact.js"></script>
 </body>
 
 </html>
