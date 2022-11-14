@@ -29,7 +29,7 @@ jQuery(document).ready(function ($) { // wait until the document is ready
 
 		$.ajax({
 			type: "POST",
-			url: "index.html",
+			url: "/index.html",
 			data: data_string,
 			timeout: 6000,
 			error: function(request,error) {
